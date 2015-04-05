@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<style type = "text/css">
+			canvas {
+				background-color:#FFF;
+			}
+		</style>
+		<script src = "jquery.js"></script>
+		<script src = "functions.spider-graph.js"></script>
+	</head>
+	<body>
+	<h2>Spider Graph</h2>
+		<canvas width = "400px" height = "400px"></canvas>
+			<script type = "text/javascript">
+				$(function() {
+					var spiderGraph  = $("canvas");
+					var context 	 = spiderGraph[0].getContext("2d");
+					
+					var canvasWidth  = $("canvas").width();
+					var canvasHeight = $("canvas").height();
+					
+					var xPadding   	  	= canvasWidth / 10;
+					var yPadding   	  	= canvasHeight / 10;
+					
+					var graphSize 	  	= {'value':75000, 'pixel':(canvasHeight - 2 * yPadding) / 2};
+					var statisticList  = 
+									[
+										[{'name':'august', 'color' : '#5E7185'},
+											{'type':'A', 'value':45000},
+											{'type':'B', 'value':60000},
+											{'type':'C', 'value':50000},
+											{'type':'D', 'value':60000},
+											{'type':'E', 'value':60000},
+											{'type':'F', 'value':65000},
+										  	
+										], 
+										[{'name':'september', 'color' : '#FF4570'},
+											{'type':'A', 'value':30000},
+											{'type':'B', 'value':35000},
+											{'type':'C', 'value':40000},
+											{'type':'D', 'value':45000},
+											{'type':'E', 'value':40000},
+											{'type':'F', 'value':40000},
+										], 
+										[{'name':'october', 'color' : '#57E6B1'},
+											{'type':'A', 'value':25000},
+											{'type':'B', 'value':45000},
+											{'type':'C', 'value':5000},
+											{'type':'D', 'value':50000},
+											{'type':'E', 'value':35000},
+											{'type':'F', 'value':25000},
+								  		]
+								  	];
+					var points  = [
+									{'alias' : 'A', 'x' : canvasWidth / 2, 'y' : yPadding},
+									{'alias' : 'B', 'x' : canvasWidth - xPadding, 'y' : yPadding + (canvasHeight - 2 * yPadding) / 4},
+									{'alias' : 'C', 'x' : canvasWidth - xPadding, 'y' : 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
+									{'alias' : 'D', 'x' : canvasWidth / 2, 'y' : canvasHeight - yPadding},
+									{'alias' : 'E', 'x' : xPadding, 'y' : 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
+									{'alias' : 'F', 'x' : xPadding, 'y' : yPadding + (canvasHeight - 2 * yPadding) / 4}
+								];
+					context.strokeStyle = '#E9E9E9';
+					context.shadowColor = '#2ECC71';
+					
+					var delimeterCount = 2;
+					var offset = 0;
+					
+					drawCrossLinesNetwork(context, points);
+					drawHexagon(context, points, 0);
+					for ( var i = 0; i <= delimeterCount; i++) {
+						drawHexagon(context, points, offset);
+						if ( i == 1)
+							offset += 60;
+						else 
+							offset += 50;
+					}
+					drawLineNames(context, statisticList);
+					drawStatistic(context, points, statisticList, graphSize);
+				});
+			</script>
+	</body>
+</html>

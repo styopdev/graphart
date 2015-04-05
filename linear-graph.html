@@ -1,0 +1,167 @@
+<style type = "text/css">
+	.circle-statistic {
+		width:500px;
+		height:500px;
+		/*background-color:#486088;*/
+		position:relative;
+	}
+	.total {
+		position:absolute;
+		margin-left:80px;
+		margin-top:-100px;
+	}
+</style>
+<div class = "circle-statistic">
+	<h2>Linear Graph</h2>
+	<canvas id="graph" width="900" height="300" style = "background-color:#242F41"></canvas> 
+</div>
+<script type = "text/javascript" src = "jquery.js"></script>
+  <script>
+            var graph;
+            var xPadding = 30;
+            var yPadding = 30;
+			var drawedCirclesPrevGraph 	  = [];
+			var drawedCirclesCurrentGraph = [];
+            
+            var data = { values:[
+                { X: "Sunday", Y: 40 },
+                { X: "Monday", Y: 15 },
+                { X: "Tuesday", Y: 28 },
+                { X: "Wednesday", Y: 18 },
+                { X: "Thursday", Y: 34 },
+                { X: "Friday", Y: 80 },
+				{ X: "Saturday", Y: 34 },
+            ]};
+			var previousData = { values:[
+                { X: "Sunday", Y: 40 },
+                { X: "Monday", Y: 10 },
+                { X: "Tuesday", Y: 18 },
+                { X: "Wednesday", Y: 10 },
+                { X: "Thursday", Y: 50},
+                { X: "Friday", Y: 60 },
+				{ X: "Saturday", Y: 100 },
+            ]};
+
+            function getMaxY() {
+                var max = 0;
+                
+                for(var i = 0; i < data.values.length; i ++) {
+                    if(data.values[i].Y > max) {
+                        max = data.values[i].Y;
+                    }
+                }
+				
+				for(var i = 0; i < previousData.values.length; i ++) {
+                    if(previousData.values[i].Y > max) {
+                        max = previousData.values[i].Y;
+                    }
+                }
+				
+                max += 10 - max % 10;
+                return max;
+            }
+            
+            function getXPixel(val) {
+                return ((graph.width() - xPadding) / data.values.length) * val + (xPadding * 1.5);
+            }
+            
+            function getYPixel(val) {
+                return graph.height() - (((graph.height() - yPadding) / getMaxY()) * val) - yPadding;
+            }
+
+            $(function() {
+                graph = $('#graph');
+				
+                var c = graph[0].getContext('2d');            
+                
+                c.lineWidth = 2;
+                c.strokeStyle = '#333';
+				
+                c.font = 'italic 8pt sans-serif';
+                c.textAlign = "center";
+                
+                // Draw the axises
+                c.beginPath();
+                c.moveTo(xPadding, 0);
+                c.lineTo(xPadding, graph.height() - yPadding);
+                c.lineTo(graph.width(), graph.height() - yPadding);
+                c.stroke();
+                
+                // Draw the X value texts
+				var maxLengthData = previousData;
+				if ( data.values.length > previousData.values.length ) {
+					maxLengthData = data;
+				}
+				for ( var i = 0; i < maxLengthData.values.length; i ++ ) {
+					c.fillStyle = '#FFFFFF';
+					c.fillText(maxLengthData.values[i].X, getXPixel(i), graph.height() - yPadding + 20);
+				}
+                // Draw the Y value texts
+                c.textAlign = "right"
+                c.textBaseline = "middle";
+                
+                for(var i = 0; i < getMaxY(); i += 10) {
+					c.fillStyle = '#FFFFFF';
+                    c.fillText(i, xPadding - 10, getYPixel(i));
+                }
+                
+                c.strokeStyle = '#80C6EE';
+
+                c.beginPath();
+                c.moveTo(getXPixel(0), getYPixel(data.values[0].Y));
+                for(var i = 1; i < data.values.length; i ++) {
+                    c.lineTo(getXPixel(i), getYPixel(data.values[i].Y));
+                }
+                c.stroke();
+
+                c.fillStyle = '#D4ECFC';
+                
+                for(var i = 0; i < data.values.length; i ++) {  
+                    c.beginPath();
+                    c.arc(getXPixel(i), getYPixel(data.values[i].Y), 4, 0, Math.PI * 2, true);
+					drawedCirclesCurrentGraph.push({'x':Math.round(getXPixel(i)), 'y':Math.round(getYPixel(data.values[i].Y))})
+                    c.fill();
+                }
+
+			<!-- PREVIOUS GRAPH-->
+				c.lineWidth = 2;
+                c.strokeStyle = '#333';
+				
+                c.font = 'italic 8pt sans-serif';
+                c.textAlign = "center";
+
+                c.beginPath();
+                c.moveTo(xPadding, 0);
+                c.lineTo(xPadding, graph.height() - yPadding);
+                c.lineTo(graph.width(), graph.height() - yPadding);
+                c.stroke();
+
+				c.strokeStyle = 'rgba(178, 178, 178, 0.3)';
+				
+                c.beginPath();
+                c.moveTo(getXPixel(0), getYPixel(previousData.values[0].Y));
+                for(var i = 1; i < previousData.values.length; i ++) {
+                    c.lineTo(getXPixel(i), getYPixel(previousData.values[i].Y));
+                }
+                c.stroke();
+
+                c.fillStyle = 'rgba(178, 178, 178, 0.8)';
+                
+                for(var i = 0; i < previousData.values.length; i ++) {  
+                    c.beginPath();
+                    c.arc(getXPixel(i), getYPixel(previousData.values[i].Y), 4, 0, Math.PI * 2, true);
+					drawedCirclesPrevGraph.push({'x':Math.round(getXPixel(i)), 'y':Math.round(getYPixel(data.values[i].Y))})
+                    c.fill();
+                }
+				
+				/*$("canvas").mousemove(function(event){
+					console.log(drawedCirclesCurrentGraph )
+					var canvasOffset = $('#graph').offset();
+					for ( coord in drawedCirclesCurrentGraph ) {
+						if ( drawedCirclesCurrentGraph[coord].x == (event.pageX - offsetLeft - xPadding) && drawedCirclesCurrentGraph[coord].y == (event.pageY - offsetTop - yPadding))
+								alert('kpar')
+					}
+				})*/
+            });
+
+</script>
