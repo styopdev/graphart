@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <script type = "text/javascript" src = "../jquery.js"></script>
+        <script type = "text/javascript" src = "../graphart.js"></script>
+        <script>            
+            var data = { values:[
+                { X: "Sunday", Y: 40 },
+                { X: "Monday", Y: 15 },
+                { X: "Tuesday", Y: 28 },
+                { X: "Wednesday", Y: 18 },
+                { X: "Thursday", Y: 34 },
+                { X: "Friday", Y: 80 },
+                { X: "Saturday", Y: 34 },
+            ]};
+            var previousData = { values:[
+                { X: "Sunday", Y: 40 },
+                { X: "Monday", Y: 10 },
+                { X: "Tuesday", Y: 18 },
+                { X: "Wednesday", Y: 10 },
+                { X: "Thursday", Y: 50},
+                { X: "Friday", Y: 60 },
+                { X: "Saturday", Y: 100 },
+            ]};
+
+            var options = {
+                xPadding : 30,
+                yPadding : 30
+            }
+
+            $(function() {
+                drawLinearGraph("#linear-graph", data, previousData, options)
+            });
+        </script>
+    </head>
+    <body>
+        <div class = "circle-statistic">
+            <h2>Linear Graph</h2>
+            <canvas id="linear-graph" width="900" height="300" style = "background-color:#242F41"></canvas> 
+        </div>
+    </body>
+</html>
+  

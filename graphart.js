@@ -1,3 +1,4 @@
+/*** SPIDER GRAPH ***/
 function drawSpiderGraph(selector, stat, options)
 {
 	var spiderGraph  = $(selector);
@@ -20,7 +21,6 @@ function drawSpiderGraph(selector, stat, options)
 					{'alias' : 'PHP',  'x' : xPadding, 'y' : yPadding + (canvasHeight - 2 * yPadding) / 4}
 				];
 
-	
 	drawCrossLinesNetwork(context, points, options);
 	drawHexagon(context, points, options);
 	for ( var i = 0; i <= options.delimeterCount; i++) {
@@ -88,7 +88,6 @@ function drawHexagon(context, points, options)
 		  		context.fillText(points[i].alias, points[i].x - 35, points[i].y + startPointOffset.y);	
 		  		context.stroke();
 		  	}
-
 			config.startX = points[0].x + endPointOffset.x;
 			config.startY = points[0].y + endPointOffset.y;
 			config.radius = 1;
@@ -291,4 +290,173 @@ function getEventNameTextOffset(points, alias)
 		case 5 : 
 	}
 	return {'x':xOffset, 'y':yOffset};
+}
+
+/*** LINEAR GRAPH FUNCTIONS ***/
+
+function getMaxY() {
+    var max = 0;
+    
+    for(var i = 0; i < data.values.length; i ++) {
+        if(data.values[i].Y > max) {
+            max = data.values[i].Y;
+        }
+    }
+	
+	for(var i = 0; i < previousData.values.length; i ++) {
+        if(previousData.values[i].Y > max) {
+            max = previousData.values[i].Y;
+        }
+    }
+	
+    max += 10 - max % 10;
+    return max;
+}
+
+function drawLinearGraph(selector, data, previousData, options) {
+
+    var graph = $(selector);
+	var drawedCirclesPrevGraph 	  = [];
+	var drawedCirclesCurrentGraph = [];
+	
+    var c = graph[0].getContext('2d');            
+    
+    c.lineWidth = 2;
+    c.strokeStyle = '#333';
+	
+    c.font = 'italic 8pt sans-serif';
+    c.textAlign = "center";
+    
+    // Draw the axises
+    c.beginPath();
+    c.moveTo(options.xPadding, 0);
+    c.lineTo(options.xPadding, graph.height() - options.yPadding);
+    c.lineTo(graph.width(), graph.height() - options.yPadding);
+    c.stroke();
+    
+    // Draw the X value texts
+	var maxLengthData = previousData;
+	if ( data.values.length > previousData.values.length ) {
+		maxLengthData = data;
+	}
+	for ( var i = 0; i < maxLengthData.values.length; i ++ ) {
+		c.fillStyle = '#FFFFFF';
+		c.fillText(maxLengthData.values[i].X, getXPixel(i), graph.height() - options.yPadding + 20);
+	}
+    // Draw the Y value texts
+    c.textAlign = "right"
+    c.textBaseline = "middle";
+    
+    for(var i = 0; i < getMaxY(); i += 10) {
+		c.fillStyle = '#FFFFFF';
+        c.fillText(i, options.xPadding - 10, getYPixel(i));
+    }
+    
+    c.strokeStyle = '#80C6EE';
+
+    c.beginPath();
+    c.moveTo(getXPixel(0), getYPixel(data.values[0].Y));
+    for(var i = 1; i < data.values.length; i ++) {
+        c.lineTo(getXPixel(i), getYPixel(data.values[i].Y));
+    }
+    c.stroke();
+
+    c.fillStyle = '#D4ECFC';
+    
+    for(var i = 0; i < data.values.length; i ++) {  
+        c.beginPath();
+        c.arc(getXPixel(i), getYPixel(data.values[i].Y), 4, 0, Math.PI * 2, true);
+		drawedCirclesCurrentGraph.push({'x':Math.round(getXPixel(i)), 'y':Math.round(getYPixel(data.values[i].Y))})
+        c.fill();
+    }
+
+    // Draw Previous Graph
+	c.lineWidth = 2;
+    c.strokeStyle = '#333';
+	
+    c.font = 'italic 8pt sans-serif';
+    c.textAlign = "center";
+
+    c.beginPath();
+    c.moveTo(options.xPadding, 0);
+    c.lineTo(options.xPadding, graph.height() - options.yPadding);
+    c.lineTo(graph.width(), graph.height() - options.yPadding);
+    c.stroke();
+
+	c.strokeStyle = 'rgba(178, 178, 178, 0.3)';
+	
+    c.beginPath();
+    c.moveTo(getXPixel(0), getYPixel(previousData.values[0].Y));
+    for(var i = 1; i < previousData.values.length; i ++) {
+        c.lineTo(getXPixel(i), getYPixel(previousData.values[i].Y));
+    }
+    c.stroke();
+
+    c.fillStyle = 'rgba(178, 178, 178, 0.8)';
+    
+    for(var i = 0; i < previousData.values.length; i ++) {  
+        c.beginPath();
+        c.arc(getXPixel(i), getYPixel(previousData.values[i].Y), 4, 0, Math.PI * 2, true);
+		drawedCirclesPrevGraph.push({'x':Math.round(getXPixel(i)), 'y':Math.round(getYPixel(data.values[i].Y))})
+        c.fill();
+    }
+
+    function getXPixel(val) {
+    	return ((graph.width() - options.xPadding) / data.values.length) * val + ( options.xPadding * 1.5);
+	}
+
+	function getYPixel(val) {
+	    return graph.height() - (((graph.height() -  options.yPadding) / getMaxY()) * val) -  options.yPadding;
+	}
+}
+
+/*** CIRCLE GRAPH ***/
+function drawCircleGraph(selector, stat, max, options) {
+	var canvas = $(selector)[0];
+	var context = canvas.getContext('2d');
+	var x = canvas.width / 2;
+	var y = canvas.height / 2;
+	
+	var endPercentCurrent = (stat + 10) / max * 100 ;
+	var endPercentCurrentText = (stat) / max * 100 ;
+	
+	var curPerc = 0;
+	var counterClockwise = true;
+	var circ = Math.PI * 2;
+	var quart = Math.PI / 2;
+
+	context.lineWidth = options.innerLineWidth;
+	context.strokeStyle = options.innerFillColor;
+	context.shadowOffsetX = 0;
+	context.shadowOffsetY = 0;
+	context.shadowBlur  = 1;
+	context.shadowColor = options.shadowColor;
+	context.arc(x, y, options.radius, 0, 2 * Math.PI);
+	context.stroke();
+	context.shadowColor = "white";
+	context.fillStyle = options.textColor;
+	context.font = "normal 50px ProximaNova-Regular";
+	context.fillText(endPercentCurrentText, 108, 155);
+	 
+	context.fillStyle = options.textColor;
+	context.font = "normal 22px  ProximaNova-Regular";
+	context.fillText("%", 160, 135);
+	 
+	context.lineWidth = options.outerLineWidth;
+	 
+	function animateCurrent(current) {
+	    context.beginPath();
+		context.shadowColor = options.outerFillColor;
+		context.strokeStyle = options.outerFillColor;
+	    context.arc(x, y, options.radius, -(quart), ((circ) * current) - quart, false);
+	    context.stroke();
+	    curPerc++;
+	    if (curPerc < endPercentCurrent) {
+	        requestAnimationFrame(function () {
+	           animateCurrent(curPerc / 100)
+	        });
+	    }
+	}
+	animateCurrent();
+	$('#total-count').html(endPercentCurrent + '<span class = "total-percent">%</span>');
 }
