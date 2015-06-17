@@ -1,82 +1,61 @@
 <html>
 	<head>
-		<style type = "text/css">
-			canvas {
-				background-color:#FFF;
-			}
-		</style>
 		<script src = "jquery.js"></script>
-		<script src = "functions.spider-graph.js"></script>
+		<script src = "graphart.min.js"></script>
 	</head>
 	<body>
 	<h2>Spider Graph</h2>
-		<canvas width = "400px" height = "400px"></canvas>
+		<canvas width = "400px" height = "400px" id ="mycanvas" ></canvas>
 			<script type = "text/javascript">
+				
 				$(function() {
-					var spiderGraph  = $("canvas");
-					var context 	 = spiderGraph[0].getContext("2d");
-					
-					var canvasWidth  = $("canvas").width();
-					var canvasHeight = $("canvas").height();
-					
-					var xPadding   	  	= canvasWidth / 10;
-					var yPadding   	  	= canvasHeight / 10;
-					
-					var graphSize 	  	= {'value':75000, 'pixel':(canvasHeight - 2 * yPadding) / 2};
-					var statisticList  = 
-									[
-										[{'name':'august', 'color' : '#5E7185'},
-											{'type':'A', 'value':45000},
-											{'type':'B', 'value':60000},
-											{'type':'C', 'value':50000},
-											{'type':'D', 'value':60000},
-											{'type':'E', 'value':60000},
-											{'type':'F', 'value':65000},
-										  	
-										], 
-										[{'name':'september', 'color' : '#FF4570'},
-											{'type':'A', 'value':30000},
-											{'type':'B', 'value':35000},
-											{'type':'C', 'value':40000},
-											{'type':'D', 'value':45000},
-											{'type':'E', 'value':40000},
-											{'type':'F', 'value':40000},
-										], 
-										[{'name':'october', 'color' : '#57E6B1'},
-											{'type':'A', 'value':25000},
-											{'type':'B', 'value':45000},
-											{'type':'C', 'value':5000},
-											{'type':'D', 'value':50000},
-											{'type':'E', 'value':35000},
-											{'type':'F', 'value':25000},
-								  		]
-								  	];
-					var points  = [
-									{'alias' : 'A', 'x' : canvasWidth / 2, 'y' : yPadding},
-									{'alias' : 'B', 'x' : canvasWidth - xPadding, 'y' : yPadding + (canvasHeight - 2 * yPadding) / 4},
-									{'alias' : 'C', 'x' : canvasWidth - xPadding, 'y' : 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
-									{'alias' : 'D', 'x' : canvasWidth / 2, 'y' : canvasHeight - yPadding},
-									{'alias' : 'E', 'x' : xPadding, 'y' : 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
-									{'alias' : 'F', 'x' : xPadding, 'y' : yPadding + (canvasHeight - 2 * yPadding) / 4}
-								];
-					context.strokeStyle = '#E9E9E9';
-					context.shadowColor = '#2ECC71';
-					
-					var delimeterCount = 2;
-					var offset = 0;
-					
-					drawCrossLinesNetwork(context, points);
-					drawHexagon(context, points, 0);
-					for ( var i = 0; i <= delimeterCount; i++) {
-						drawHexagon(context, points, offset);
-						if ( i == 1)
-							offset += 60;
-						else 
-							offset += 50;
-					}
-					drawLineNames(context, statisticList);
-					drawStatistic(context, points, statisticList, graphSize);
+					var stat  = [
+						[{'name':'2011', 'color' : '#03C9A9'},
+							{'type':'Java', 'value':50000},
+							{'type':'JS',   'value':55000},
+							{'type':'C',  'value':40000},
+							{'type':'Objc', 'value':60000},
+							{'type':'C#',   'value':63000},
+							{'type':'PHP',  'value':65000},
+						  	
+						], 
+						[{'name':'2012', 'color' : '#F64747'},
+							{'type':'Java', 'value':45000},
+							{'type':'JS',   'value':68000},
+							{'type':'C',  'value':43000},
+							{'type':'Objc', 'value':40000},
+							{'type':'C#',   'value':50000},
+							{'type':'PHP',  'value':37000},
+						], 
+						[{'name':'2013', 'color' : '#19B5FE'},
+							{'type':'Java', 'value':24000},
+							{'type':'JS',   'value':77000},
+							{'type':'C',  'value':29000},
+							{'type':'Objc', 'value':20000},
+							{'type':'C#',   'value':48000},
+							{'type':'PHP',  'value':21000},
+				  		],
+				  		[{'name':'2014', 'color' : '#6C7A89'},
+							{'type':'Java', 'value':65000},
+							{'type':'JS',   'value':70000},
+							{'type':'C',  'value':55000},
+							{'type':'Objc', 'value':60000},
+							{'type':'C#',   'value':37000},
+							{'type':'PHP',  'value':55000},
+				  		]
+				  	];
+
+					var options = {
+						strokeStyle : '#E9E9E9',
+						shadowColor : '#2ECC71',
+						offset : 0,
+						delimeterCount : 2,
+						lineWidth : 1
+					};
+
+					drawSpiderGraph("#mycanvas", stat, options);
 				});
+
 			</script>
 	</body>
 </html>
