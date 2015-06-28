@@ -1,30 +1,45 @@
 <html>
     <head>
         <script type = "text/javascript" src = "../jquery.js"></script>
-        <script type = "text/javascript" src = "../graphart.js"></script>
+        <script type = "text/javascript" src = "../graphart.min.js"></script>
         <script>            
             var data = { values:[
-                { X: "Sunday", Y: 40 },
-                { X: "Monday", Y: 15 },
-                { X: "Tuesday", Y: 28 },
-                { X: "Wednesday", Y: 18 },
-                { X: "Thursday", Y: 34 },
-                { X: "Friday", Y: 80 },
-                { X: "Saturday", Y: 34 },
+                { X: "January", Y: 8 },
+                { X: "February", Y: 2 },
+                { X: "March", Y: 4 },
+                { X: "April", Y: 3 },
+                { X: "May", Y: 13},
+                { X: "June", Y: 15 },
+                { X: "July", Y: 21 },
+                { X: "August", Y: 19 },
+                { X: "September", Y: 25 },
+                { X: "October", Y: 15 },
+                { X: "November", Y: 18 },
+                { X: "December", Y: 2 }
             ]};
             var previousData = { values:[
-                { X: "Sunday", Y: 40 },
-                { X: "Monday", Y: 10 },
-                { X: "Tuesday", Y: 18 },
-                { X: "Wednesday", Y: 10 },
-                { X: "Thursday", Y: 50},
-                { X: "Friday", Y: 60 },
-                { X: "Saturday", Y: 100 },
+                { X: "January", Y: 4 },
+                { X: "February", Y: 9 },
+                { X: "March", Y: 6 },
+                { X: "April", Y: 1 },
+                { X: "May", Y: 8},
+                { X: "June", Y: 6.8 },
+                { X: "July", Y: 12 },
+                { X: "August", Y: 14 },
+                { X: "September", Y: 22 },
+                { X: "October", Y: 17 },
+                { X: "November", Y: 11 },
+                { X: "December", Y: 9 }
             ]};
 
             var options = {
                 xPadding : 30,
-                yPadding : 30
+                yPadding : 30,
+				lineWidth : 2,
+				currCircleColor : '#2A4269',
+				prevCircleColor :  'rgba(101, 181, 178, 0.5)',
+				currColor : '#2A4269',
+				prevColor : 'rgba(101, 181, 178, 0.8)'			
             }
 
             $(function() {
@@ -35,7 +50,7 @@
     <body>
         <div class = "circle-statistic">
             <h2>Linear Graph</h2>
-            <canvas id="linear-graph" width="900" height="300" style = "background-color:#242F41"></canvas> 
+            <canvas id="linear-graph" width="900" height="300" style = "background-color:#E8EEF6"></canvas> 
         </div>
     </body>
 </html>

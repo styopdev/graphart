@@ -321,7 +321,7 @@ function drawLinearGraph(selector, data, previousData, options) {
 	
     var c = graph[0].getContext('2d');            
     
-    c.lineWidth = 2;
+    c.lineWidth = options.lineWidth;
     c.strokeStyle = '#333';
 	
     c.font = 'italic 8pt sans-serif';
@@ -340,7 +340,7 @@ function drawLinearGraph(selector, data, previousData, options) {
 		maxLengthData = data;
 	}
 	for ( var i = 0; i < maxLengthData.values.length; i ++ ) {
-		c.fillStyle = '#FFFFFF';
+		c.fillStyle = '#808080';
 		c.fillText(maxLengthData.values[i].X, getXPixel(i), graph.height() - options.yPadding + 20);
 	}
     // Draw the Y value texts
@@ -348,11 +348,11 @@ function drawLinearGraph(selector, data, previousData, options) {
     c.textBaseline = "middle";
     
     for(var i = 0; i < getMaxY(); i += 10) {
-		c.fillStyle = '#FFFFFF';
+		c.fillStyle = '#808080';
         c.fillText(i, options.xPadding - 10, getYPixel(i));
     }
     
-    c.strokeStyle = '#80C6EE';
+    c.strokeStyle = options.currColor;
 
     c.beginPath();
     c.moveTo(getXPixel(0), getYPixel(data.values[0].Y));
@@ -361,7 +361,7 @@ function drawLinearGraph(selector, data, previousData, options) {
     }
     c.stroke();
 
-    c.fillStyle = '#D4ECFC';
+    c.fillStyle = options.currCircleColor;
     
     for(var i = 0; i < data.values.length; i ++) {  
         c.beginPath();
@@ -371,7 +371,7 @@ function drawLinearGraph(selector, data, previousData, options) {
     }
 
     // Draw Previous Graph
-	c.lineWidth = 2;
+	c.lineWidth = options.lineWidth;
     c.strokeStyle = '#333';
 	
     c.font = 'italic 8pt sans-serif';
@@ -383,7 +383,7 @@ function drawLinearGraph(selector, data, previousData, options) {
     c.lineTo(graph.width(), graph.height() - options.yPadding);
     c.stroke();
 
-	c.strokeStyle = 'rgba(178, 178, 178, 0.3)';
+	c.strokeStyle = options.prevColor;
 	
     c.beginPath();
     c.moveTo(getXPixel(0), getYPixel(previousData.values[0].Y));
@@ -392,7 +392,7 @@ function drawLinearGraph(selector, data, previousData, options) {
     }
     c.stroke();
 
-    c.fillStyle = 'rgba(178, 178, 178, 0.8)';
+    c.fillStyle = options.prevCircleColor;
     
     for(var i = 0; i < previousData.values.length; i ++) {  
         c.beginPath();
