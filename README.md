@@ -9,6 +9,7 @@ Javascript Cool Charts
 ![Line Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/e83594af-d4d1-4ec9-97d3-76df43ca951d/2015-06-28_2107.png)
 
 ![Pie Chart](http://content.screencast.com/users/styopdev/folders/Jing/media/ec600738-fbbe-49c0-bdaa-16b59264b2c0/2015-06-17_2125.png)
+![Pie Chart](http://content.screencast.com/users/johannesMt/folders/Jing/media/9aa7acde-fd34-490f-ab03-983a2551cb5c/2015-06-28_2158.png)
 
 ![Circle Graph](http://content.screencast.com/users/styopdev/folders/Jing/media/87aba6bb-118e-46bd-abda-83b2702218f7/2015-06-17_2227.png)
 ![Circle Graph](http://content.screencast.com/users/styopdev/folders/Jing/media/c02a460e-3d55-4bb2-bbce-dccbfe680920/2015-06-17_2301.png)
