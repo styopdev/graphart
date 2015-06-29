@@ -64,7 +64,7 @@ Nowadays, data visualization and analysis is now an key factor of business proce
     });
 ```
 
-#### Linaer graph:
+#### Linear graph:
 ###### Demo: 
 ![Line Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/b9480293-6e1d-442b-88ff-4c215b0ea3fa/2015-06-29_1319.png)
 ![Line Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/ce454fd4-e195-4862-83c8-9e442896b0f8/2015-06-29_1317.png)
