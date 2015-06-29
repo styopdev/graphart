@@ -169,7 +169,7 @@ var pieData =[
 ```
 #### Circle graphs:
 ###### Demo:
-![Circle Graph](http://content.screencast.com/users/styopdev/folders/Jing/media/87aba6bb-118e-46bd-abda-83b2702218f7/2015-06-17_2227.png)
+![Circle Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/c60dd1c8-b1bd-471e-b296-4a96ac5a46bb/2015-06-29_1327.png)
 ![Circle Graph](http://content.screencast.com/users/styopdev/folders/Jing/media/c02a460e-3d55-4bb2-bbce-dccbfe680920/2015-06-17_2301.png)
 ###### Usage:
 ```
