@@ -66,8 +66,8 @@ Nowadays, data visualization and analysis is now an key factor of business proce
 
 #### Linaer graph:
 ###### Demo: 
-![Line Graph](http://content.screencast.com/users/styopdev/folders/Jing/media/68c58501-430c-48c6-89ab-9153942c5309/00000005.png)
-![Line Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/e83594af-d4d1-4ec9-97d3-76df43ca951d/2015-06-28_2107.png)
+![Line Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/b9480293-6e1d-442b-88ff-4c215b0ea3fa/2015-06-29_1319.png)
+![Line Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/ce454fd4-e195-4862-83c8-9e442896b0f8/2015-06-29_1317.png)
 ###### Usage:
 ```
 var data = { values:[
