@@ -170,7 +170,7 @@ var pieData =[
 #### Circle graphs:
 ###### Demo:
 ![Circle Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/c60dd1c8-b1bd-471e-b296-4a96ac5a46bb/2015-06-29_1327.png)
-![Circle Graph](http://content.screencast.com/users/styopdev/folders/Jing/media/c02a460e-3d55-4bb2-bbce-dccbfe680920/2015-06-17_2301.png)
+![Circle Graph](http://content.screencast.com/users/johannesMt/folders/Jing/media/b5a9bf3b-e9c2-42f0-9593-1495bb04daaa/2015-06-29_1330.png)
 ###### Usage:
 ```
 	$(function() {
