@@ -116,8 +116,8 @@ var data = { values:[
 
 #### Pie chart:
 ###### Demo:
-![Pie Chart](http://content.screencast.com/users/styopdev/folders/Jing/media/ec600738-fbbe-49c0-bdaa-16b59264b2c0/2015-06-17_2125.png)
-![Pie Chart](http://content.screencast.com/users/johannesMt/folders/Jing/media/9aa7acde-fd34-490f-ab03-983a2551cb5c/2015-06-28_2158.png)
+![Pie Chart](http://content.screencast.com/users/johannesMt/folders/Jing/media/f8de6e27-0362-4699-9796-a2b9e41c2e2e/2015-06-29_1322.png)
+![Pie Chart](http://content.screencast.com/users/johannesMt/folders/Jing/media/dd111bc6-99d5-4d77-8dd8-2c61a63541fb/2015-06-29_1321.png)
 ###### Usage:
 ```
 var pieData =[
