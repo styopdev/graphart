@@ -120,52 +120,22 @@ var data = { values:[
 ![Pie Chart](http://content.screencast.com/users/johannesMt/folders/Jing/media/b7a9189a-dbea-4a0b-a518-3518d556cb09/2015-06-30_1540.png)
 ###### Usage:
 ```
-var pieData =[
-                {"size" : 42, "title" : "Russia", "color": "#FF0000"},
-                {"size" : 21, "title" : "Canada", "color": "#FF9934"},
-                {"size" : 18, "title" : "China", "color": "#F778A1"},
-                {"size" : 19, "title" : "United States", "color": "#CC0001"},
-            ];
-            drawPieChart(pieData, 100);
+    var pieData =[
+        {"size" : 42, "title" : "Russia", "color": "#FF0000"},
+        {"size" : 21, "title" : "Canada", "color": "#FF9934"},                
+        {"size" : 19, "title" : "United States", "color": "#F778A1"},
+        {"size" : 18, "title" : "China", "color": "#CC0001"}
+    ];
 
-            function drawPieChart(pieData, radius){
+    var options = {
+        radius          : 100,
+        fillStyle       : '#CCDCCD',
+        borderColor     : '#C6DBEF',
+        borderLineWidth : 1
+    }
 
-                var canvas = document.getElementById('myCanvas');
-                var base = canvas.getContext('2d');
-                var centerX = canvas.width / 2;
-                var centerY = canvas.height / 2;
-
-                base.beginPath();
-                base.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-                base.fillStyle = '#ccd';
-                drawBorder(base);
-                base.stroke();
-
-                var startAngle = 0;
-
-                for(var key in pieData){
-                    document.getElementById("pie-item-list").innerHTML += '<li><div style="width: 10px; height: 10px; margin: 10px 5px 0 2px; display: inline-block; background: '+ pieData[key].color +';"></div> ' + pieData[key].title + ' <span class="pieItem"> ' + pieData[key].size + '</span>%</li>';
-
-                    base.beginPath();
-                    drawSlice(startAngle, startAngle + (pieData[key].size * 2 * Math.PI / 100), pieData[key].color, false);
-                    drawBorder();
-                    base.stroke();
-                    startAngle += (pieData[key].size * 2 * Math.PI / 100);
-                }
-
-                function drawSlice(startAngle, endAngle, color, val){
-                    base.moveTo(centerX, centerY);
-                    base.arc(centerX, centerY, radius, startAngle, endAngle, val);
-                    base.lineTo(centerX, centerY);
-                    base.fillStyle = color;
-                }
-                /* Pie Chart slices */
-                function drawBorder(){
-                    base.lineWidth = 1;
-                    base.fill();
-                    base.strokeStyle = '#C6DBEF';
-                }
-            }
+    drawPieChart(pieData, options);
+    
 ```
 #### Circle graphs:
 ###### Demo:

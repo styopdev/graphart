@@ -460,3 +460,47 @@ function drawCircleGraph(selector, stat, max, options) {
 	animateCurrent();
 	$('#total-count').html(endPercentCurrent + '<span class = "total-percent">%</span>');
 }
+
+/*** PIE GRAPH ***/
+
+function drawPieChart(pieData, options)
+{
+    var canvas = document.getElementById('myCanvas');
+    var base = canvas.getContext('2d');
+    var centerX = canvas.width / 2;
+    var centerY = canvas.height / 2;
+
+    base.beginPath();
+    base.arc(centerX, centerY, options.radius, 0, 2 * Math.PI, false);
+    base.fillStyle = options.fillStyle;
+    drawBorder(base);
+    base.stroke();
+
+    var startAngle = 0;
+
+    for (var key in pieData)
+    {
+        document.getElementById("pie-item-list").innerHTML += '<li><div style="width: 10px; height: 10px; margin: 10px 5px 0 2px; display: inline-block; background: '+ pieData[key].color +';"></div> ' + pieData[key].title + ' <span class="pieItem"> ' + pieData[key].size + '</span>%</li>';
+
+        base.beginPath();
+        drawSlice(startAngle, startAngle + (pieData[key].size * 2 * Math.PI / 100), pieData[key].color, false);
+        drawBorder();
+        base.stroke();
+        startAngle += (pieData[key].size * 2 * Math.PI / 100);
+    }
+
+    function drawSlice(startAngle, endAngle, color, val)
+    {
+        base.moveTo(centerX, centerY);
+        base.arc(centerX, centerY, options.radius, startAngle, endAngle, val);
+        base.lineTo(centerX, centerY);
+        base.fillStyle = color;
+    }
+    /* Pie Chart slices */
+    function drawBorder()
+    {
+        base.lineWidth = options.borderLineWidth;
+        base.fill();
+        base.strokeStyle = options.borderColor;
+    }
+}
