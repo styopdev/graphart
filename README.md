@@ -12,7 +12,6 @@ Nowadays, data visualization and analysis is now an key factor of business proce
 #### Spider graph:
 ###### Demo:
 ![Graph Chart](http://content.screencast.com/users/johannesMt/folders/Jing/media/5c4c1fb5-cad9-4aaf-b23b-c4968b783fc7/2015-06-29_1313.png)
-![Graph Chart](http://content.screencast.com/users/styopdev/folders/Jing/media/72cfb6e9-e0d5-4c73-9d18-d6bafdb6bfab/00000031.png)
 ###### Usage:
 ``` 
     $(function() {
