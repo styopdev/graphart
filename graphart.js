@@ -1,24 +1,24 @@
 /*** SPIDER GRAPH ***/
 function drawSpiderGraph(selector, stat, options)
 {
-	var spiderGraph  = $(selector);
-	var context 	 = spiderGraph[0].getContext("2d");
+	var spiderGraph  = document.querySelector(selector);
+	var context 	 = spiderGraph.getContext("2d");
 	
-	var canvasWidth  = $("canvas").width();
-	var canvasHeight = $("canvas").height();
+	var canvasWidth  = spiderGraph.width;
+	var canvasHeight = spiderGraph.height;
 	
 	var xPadding   	 = canvasWidth / 10;
 	var yPadding   	 = canvasHeight / 10;
 	
-	var graphSize 	 = {'value':75000, 'pixel':(canvasHeight - 2 * yPadding) / 2};
+	var graphSize 	 = { value: 75000, pixel: (canvasHeight - 2 * yPadding) / 2 };
 	var points 		 = 
 				[
-					{'alias' : 'Java', 'x' : canvasWidth / 2, 'y' : yPadding},
-					{'alias' : 'JS',   'x' : canvasWidth - xPadding, 'y' : yPadding + (canvasHeight - 2 * yPadding) / 4},
-					{'alias' : 'C',  'x' : canvasWidth - xPadding, 'y' : 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
-					{'alias' : 'Objc', 'x' : canvasWidth / 2, 'y' : canvasHeight - yPadding},
-					{'alias' : 'C#',   'x' : xPadding, 'y' : 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
-					{'alias' : 'PHP',  'x' : xPadding, 'y' : yPadding + (canvasHeight - 2 * yPadding) / 4}
+					{ alias: 'Java', x: canvasWidth / 2, y: yPadding },
+					{ alias: 'JS',   x: canvasWidth - xPadding, y: yPadding + (canvasHeight - 2 * yPadding) / 4},
+					{ alias: 'C',    x: canvasWidth - xPadding, y: 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
+					{ alias: 'Objc', x: canvasWidth / 2, y: canvasHeight - yPadding},
+					{ alias: 'C#',   x: xPadding, y: 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
+					{ alias: 'PHP',  x: xPadding, y: yPadding + (canvasHeight - 2 * yPadding) / 4}
 				];
 
 	drawCrossLinesNetwork(context, points, options);
@@ -48,10 +48,9 @@ function drawCrossLinesNetwork(context, points, options)
 function drawHexagon(context, points, options)
 {
 	var config = {};
-	var startPointOffset = endPointOffset = {'x' : 0, 'y' : 0};
+	var startPointOffset = endPointOffset = { x: 0, y: 0};
 	
 	for ( var i = 0; i < points.length; i++ ) {
-	
 		/* if offset not 0, drawing hexagon is inner */
 		if ( options.offset != 0 ) {
 			startPointOffset = getPointOffset(i, options.offset);
@@ -106,8 +105,6 @@ function getStatisticsPointOffset( i, offset )
 		yOffset = Math.floor(offset / 2);
 		/* Pythagoras theorem */
 		xOffset = Math.ceil(Math.sqrt( Math.pow(offset, 2) - Math.pow(yOffset, 2) )) + 8;
-		//xOffset += 4;
-		//yOffset += 1;
 	}
 	/* find offset direction */
 	switch ( i ) {
@@ -125,7 +122,7 @@ function getStatisticsPointOffset( i, offset )
 			yOffset = -1 * yOffset;
 			break;
 	}
-	return {'x':xOffset, 'y':yOffset};
+	return { x: xOffset, y: yOffset };
 }
 /* Used for frame hexagons points*/
 function getPointOffset( i, offset )
@@ -157,7 +154,7 @@ function getPointOffset( i, offset )
 			yOffset = -1 * yOffset;
 			break;
 	}
-	return {'x':xOffset, 'y':yOffset};
+	return {'x': xOffset, 'y': yOffset};
 }
 
 function drawArc(context, config)
@@ -178,6 +175,7 @@ function drawStatistic(context, points, stat, graphSize)
 		for ( var j = 1; j < stat[i].length; j++ ) {
 			offsetPercent = (graphSize.value - stat[i][j].value) / graphSize.value * 100;
 			offsetPixel   = graphSize.pixel / 100 * offsetPercent;
+
 			for ( key in points ) {
 				if ( points[key].alias == stat[i][j].type ) {
 					pointOffset = getStatisticsPointOffset(key, offsetPixel);
@@ -215,7 +213,7 @@ function joinPoints(context, statPointCoordinatesList)
 function drawLineNames(context, statList)
 {
 	var config = {};
-	config.radius 	 = 5;
+	config.radius = 5;
 	for ( key in statList ) {
 		context.beginPath();
 		context.lineWidth = 3;
@@ -247,24 +245,6 @@ function getEventNameTextOffset(points, alias)
 			break;
 		}
 	}
-	// if ( aliasIndex % 3 == 0 ) {
-	// 	xOffset = -offset;
-	// 	yOffset = -2 * offset;
-	// } else {
-	// 	yOffset = Math.floor(offset / 2);
-	// 	/* Pythagoras theorem */
-	// 	xOffset = Math.floor(Math.sqrt( Math.pow(offset, 2) - Math.pow(yOffset, 2) ));
-	// }
-	// /* find offset direction */
-	// switch ( aliasIndex ) {
-	// 	case 3 :
-	// 		yOffset = -3 * yOffset;
-	// 		break;
-	// 	case 4 :
-	// 		yOffset =  1 * yOffset;
-	// 		xOffset = -6 * offset
-	// 		break;
-	// }
 
 	switch (aliasIndex) {
 		case 0 : 
@@ -289,7 +269,7 @@ function getEventNameTextOffset(points, alias)
 			break;
 		case 5 : 
 	}
-	return {'x':xOffset, 'y':yOffset};
+	return { x: xOffset, y: yOffset };
 }
 
 /*** LINEAR GRAPH FUNCTIONS ***/
@@ -313,13 +293,13 @@ function getMaxY() {
     return max;
 }
 
-function drawLinearGraph(selector, data, previousData, options) {
-
-    var graph = $(selector);
+function drawLinearGraph(selector, data, previousData, options) 
+{
+    var graph = document.querySelector(selector);
 	var drawedCirclesPrevGraph 	  = [];
 	var drawedCirclesCurrentGraph = [];
 	
-    var c = graph[0].getContext('2d');            
+    var c = graph.getContext('2d');            
     
     c.lineWidth = options.lineWidth;
     c.strokeStyle = '#333';
@@ -330,8 +310,8 @@ function drawLinearGraph(selector, data, previousData, options) {
     // Draw the axises
     c.beginPath();
     c.moveTo(options.xPadding, 0);
-    c.lineTo(options.xPadding, graph.height() - options.yPadding);
-    c.lineTo(graph.width(), graph.height() - options.yPadding);
+    c.lineTo(options.xPadding, graph.height - options.yPadding);
+    c.lineTo(graph.width, graph.height - options.yPadding);
     c.stroke();
     
     // Draw the X value texts
@@ -341,7 +321,7 @@ function drawLinearGraph(selector, data, previousData, options) {
 	}
 	for ( var i = 0; i < maxLengthData.values.length; i ++ ) {
 		c.fillStyle = '#808080';
-		c.fillText(maxLengthData.values[i].X, getXPixel(i), graph.height() - options.yPadding + 20);
+		c.fillText(maxLengthData.values[i].X, getXPixel(i), graph.height - options.yPadding + 20);
 	}
     // Draw the Y value texts
     c.textAlign = "right"
@@ -366,7 +346,7 @@ function drawLinearGraph(selector, data, previousData, options) {
     for(var i = 0; i < data.values.length; i ++) {  
         c.beginPath();
         c.arc(getXPixel(i), getYPixel(data.values[i].Y), 4, 0, Math.PI * 2, true);
-		drawedCirclesCurrentGraph.push({'x':Math.round(getXPixel(i)), 'y':Math.round(getYPixel(data.values[i].Y))})
+		drawedCirclesCurrentGraph.push({'x': Math.round(getXPixel(i)), 'y': Math.round(getYPixel(data.values[i].Y))})
         c.fill();
     }
 
@@ -379,40 +359,40 @@ function drawLinearGraph(selector, data, previousData, options) {
 
     c.beginPath();
     c.moveTo(options.xPadding, 0);
-    c.lineTo(options.xPadding, graph.height() - options.yPadding);
-    c.lineTo(graph.width(), graph.height() - options.yPadding);
+    c.lineTo(options.xPadding, graph.height - options.yPadding);
+    c.lineTo(graph.width, graph.height - options.yPadding);
     c.stroke();
 
 	c.strokeStyle = options.prevColor;
 	
     c.beginPath();
     c.moveTo(getXPixel(0), getYPixel(previousData.values[0].Y));
-    for(var i = 1; i < previousData.values.length; i ++) {
+    for (var i = 1; i < previousData.values.length; i ++) {
         c.lineTo(getXPixel(i), getYPixel(previousData.values[i].Y));
     }
     c.stroke();
 
     c.fillStyle = options.prevCircleColor;
     
-    for(var i = 0; i < previousData.values.length; i ++) {  
+    for (var i = 0; i < previousData.values.length; i ++) {  
         c.beginPath();
         c.arc(getXPixel(i), getYPixel(previousData.values[i].Y), 4, 0, Math.PI * 2, true);
-		drawedCirclesPrevGraph.push({'x':Math.round(getXPixel(i)), 'y':Math.round(getYPixel(data.values[i].Y))})
+		drawedCirclesPrevGraph.push({ x: Math.round(getXPixel(i)), y: Math.round(getYPixel(data.values[i].Y))})
         c.fill();
     }
 
     function getXPixel(val) {
-    	return ((graph.width() - options.xPadding) / data.values.length) * val + ( options.xPadding * 1.5);
+    	return ((graph.width - options.xPadding) / data.values.length) * val + ( options.xPadding * 1.5);
 	}
 
 	function getYPixel(val) {
-	    return graph.height() - (((graph.height() -  options.yPadding) / getMaxY()) * val) -  options.yPadding;
+	    return graph.height - (((graph.height - options.yPadding) / getMaxY()) * val) -  options.yPadding;
 	}
 }
 
 /*** CIRCLE GRAPH ***/
 function drawCircleGraph(selector, stat, max, options) {
-	var canvas = $(selector)[0];
+	var canvas = document.querySelector(selector);
 	var context = canvas.getContext('2d');
 	var x = canvas.width / 2;
 	var y = canvas.height / 2;
@@ -453,12 +433,12 @@ function drawCircleGraph(selector, stat, max, options) {
 	    curPerc++;
 	    if (curPerc < endPercentCurrent) {
 	        requestAnimationFrame(function () {
-	           animateCurrent(curPerc / 100)
+	           animateCurrent(curPerc / 100);
 	        });
 	    }
 	}
 	animateCurrent();
-	$('#total-count').html(endPercentCurrent + '<span class = "total-percent">%</span>');
+	document.getElementById('#total-count').innerHTML = endPercentCurrent + '<span class = "total-percent">%</span>';
 }
 
 /*** PIE GRAPH ***/
@@ -478,8 +458,7 @@ function drawPieChart(pieData, options)
 
     var startAngle = 0;
 
-    for (var key in pieData)
-    {
+    for (var key in pieData) {
         document.getElementById("pie-item-list").innerHTML += '<li><div style="width: 10px; height: 10px; margin: 10px 5px 0 2px; display: inline-block; background: '+ pieData[key].color +';"></div> ' + pieData[key].title + ' <span class="pieItem"> ' + pieData[key].size + '</span>%</li>';
 
         base.beginPath();
