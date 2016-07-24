@@ -3,13 +3,13 @@ function drawSpiderGraph(selector, stat, options)
 {
 	var spiderGraph  = document.querySelector(selector);
 	var context 	 = spiderGraph.getContext("2d");
-	
+
 	var canvasWidth  = spiderGraph.width;
 	var canvasHeight = spiderGraph.height;
-	
+
 	var xPadding   	 = canvasWidth / 10;
 	var yPadding   	 = canvasHeight / 10;
-	
+
 	var graphSize 	 = { value: 75000, pixel: (canvasHeight - 2 * yPadding) / 2 };
 	var points 		 = 
 				[
@@ -23,12 +23,13 @@ function drawSpiderGraph(selector, stat, options)
 
 	drawCrossLinesNetwork(context, points, options);
 	drawHexagon(context, points, options);
-	for ( var i = 0; i <= options.delimeterCount; i++) {
+	for (var i = 0; i <= options.delimeterCount; i++) {
 		drawHexagon(context, points, options);
-		if ( i == 1)
+		if (i == 1) {
 			options.offset += 60;
-		else 
+		} else {
 			options.offset += 50;
+		}
 	}
 	drawLineNames(context, stat);
 	drawStatistic(context, points, stat, graphSize);
@@ -36,7 +37,7 @@ function drawSpiderGraph(selector, stat, options)
 
 function drawCrossLinesNetwork(context, points, options)
 {
-	for ( var j = 0; j < points.length / 2; j++ ) {
+	for (var j = 0; j < points.length / 2; j++) {
 		context.lineWidth = options.lineWidth;
 		context.moveTo(points[j].x, points[j].y);
 		context.lineTo(points[j + 3].x, points[j + 3].y);
@@ -49,21 +50,21 @@ function drawHexagon(context, points, options)
 {
 	var config = {};
 	var startPointOffset = endPointOffset = { x: 0, y: 0};
-	
+
 	for ( var i = 0; i < points.length; i++ ) {
 		/* if offset not 0, drawing hexagon is inner */
-		if ( options.offset != 0 ) {
+		if (options.offset != 0) {
 			startPointOffset = getPointOffset(i, options.offset);
 			endPointOffset   = getPointOffset(i + 1, options.offset);
 		}
 
-		if ( i != points.length - 1 ) {				
+		if (i != points.length - 1) {				
 			context.beginPath();
 			context.moveTo(points[i].x + startPointOffset.x, points[i].y + startPointOffset.y);
 			context.lineTo(points[i + 1].x + endPointOffset.x, points[i + 1].y + endPointOffset.y );
 			context.strokeStyle = options.strokeStyle;
 			context.stroke();
-		 	if ( options.offset == 0 ) {
+		 	if (options.offset == 0) {
 		 		var eventTextOffset = getEventNameTextOffset(points, points[i].alias);
 				context.beginPath();
 				context.fillStyle = '#9BA3AF';
@@ -81,7 +82,7 @@ function drawHexagon(context, points, options)
 			context.lineTo(points[0].x + endPointOffset.x, points[0].y + endPointOffset.y);
 			context.stroke();
 
-			if ( options.offset == 0 ) {
+			if (options.offset == 0) {
 				context.beginPath();
 		  		context.font = "20px Tahoma";
 		  		context.fillText(points[i].alias, points[i].x - 35, points[i].y + startPointOffset.y);	
@@ -98,7 +99,7 @@ function drawHexagon(context, points, options)
 function getStatisticsPointOffset( i, offset )
 {
 	var xOffset, yOffset;
-	if ( i % 3 == 0 ) {
+	if (i % 3 == 0) {
 		xOffset = 0;
 		yOffset = offset;
 	} else {
@@ -128,7 +129,7 @@ function getStatisticsPointOffset( i, offset )
 function getPointOffset( i, offset )
 {
 	var xOffset, yOffset;
-	if ( i % 3 == 0 ) {
+	if (i % 3 == 0) {
 		xOffset = 0;
 		yOffset = offset;
 	} else {
@@ -139,7 +140,7 @@ function getPointOffset( i, offset )
 		yOffset += 1;
 	}
 	/* find offset direction */
-	switch ( i ) {
+	switch (i) {
 		case 1 :
 			xOffset = -1 * xOffset;
 			break;
@@ -154,7 +155,7 @@ function getPointOffset( i, offset )
 			yOffset = -1 * yOffset;
 			break;
 	}
-	return {'x': xOffset, 'y': yOffset};
+	return { x: xOffset, y: yOffset};
 }
 
 function drawArc(context, config)
@@ -170,20 +171,20 @@ function drawArc(context, config)
 function drawStatistic(context, points, stat, graphSize)
 {
 	var offsetPixel, offsetPercent, eventAlias, pointOffset, config = {}, statPointCoordinatesList = [];
-	for ( var i = 0; i < stat.length; i++ ) {
+	for (var i = 0; i < stat.length; i++) {
 			statPointCoordinatesList = [];
-		for ( var j = 1; j < stat[i].length; j++ ) {
+		for (var j = 1; j < stat[i].length; j++) {
 			offsetPercent = (graphSize.value - stat[i][j].value) / graphSize.value * 100;
 			offsetPixel   = graphSize.pixel / 100 * offsetPercent;
 
-			for ( key in points ) {
-				if ( points[key].alias == stat[i][j].type ) {
+			for (key in points) {
+				if (points[key].alias == stat[i][j].type) {
 					pointOffset = getStatisticsPointOffset(key, offsetPixel);
 					config.radius = 5;
 					config.color  = stat[i][0].color;
 					config.startX = parseInt(points[key].x) + parseInt(pointOffset.x);
 					config.startY = parseInt(points[key].y)   + parseInt(pointOffset.y);
-					statPointCoordinatesList.push({'x' : config.startX, 'y' : config.startY, 'color':config.color, 'name' : config.name}); 
+					statPointCoordinatesList.push({ x: config.startX, y: config.startY, color: config.color, name: config.name}); 
 					drawArc(context, config);
 				}
 			}
@@ -194,8 +195,8 @@ function drawStatistic(context, points, stat, graphSize)
 
 function joinPoints(context, statPointCoordinatesList)
 {
-	for ( key in statPointCoordinatesList ) {
-		if ( key == statPointCoordinatesList.length - 1 )
+	for (key in statPointCoordinatesList) {
+		if (key == statPointCoordinatesList.length - 1)
 			break;
 			context.beginPath();
 			context.lineWidth = 2;
@@ -207,14 +208,13 @@ function joinPoints(context, statPointCoordinatesList)
 	context.moveTo(statPointCoordinatesList[0].x, statPointCoordinatesList[0].y);
 	context.lineTo(statPointCoordinatesList[statPointCoordinatesList.length - 1].x, statPointCoordinatesList[statPointCoordinatesList.length - 1].y);
 	context.stroke();
-
 }
 
 function drawLineNames(context, statList)
 {
 	var config = {};
 	config.radius = 5;
-	for ( key in statList ) {
+	for (key in statList) {
 		context.beginPath();
 		context.lineWidth = 3;
 		context.strokeStyle = statList[key][0].color;
@@ -239,8 +239,8 @@ function getEventNameTextOffset(points, alias)
 {
 	var offset = 5;
 	var xOffset, yOffset, aliasIndex;
-	for ( key in points ) {
-		if ( points[key].alias == alias ) {
+	for (key in points) {
+		if (points[key].alias == alias) {
 			aliasIndex = parseInt(key);
 			break;
 		}
@@ -276,19 +276,19 @@ function getEventNameTextOffset(points, alias)
 
 function getMaxY() {
     var max = 0;
-    
-    for(var i = 0; i < data.values.length; i ++) {
-        if(data.values[i].Y > max) {
+
+    for (var i = 0; i < data.values.length; i++) {
+        if (data.values[i].Y > max) {
             max = data.values[i].Y;
         }
     }
-	
-	for(var i = 0; i < previousData.values.length; i ++) {
-        if(previousData.values[i].Y > max) {
+
+	for (var i = 0; i < previousData.values.length; i++) {
+        if (previousData.values[i].Y > max) {
             max = previousData.values[i].Y;
         }
     }
-	
+
     max += 10 - max % 10;
     return max;
 }
@@ -298,36 +298,36 @@ function drawLinearGraph(selector, data, previousData, options)
     var graph = document.querySelector(selector);
 	var drawedCirclesPrevGraph 	  = [];
 	var drawedCirclesCurrentGraph = [];
-	
+
     var c = graph.getContext('2d');            
-    
+
     c.lineWidth = options.lineWidth;
     c.strokeStyle = '#333';
-	
+
     c.font = 'italic 8pt sans-serif';
     c.textAlign = "center";
-    
+
     // Draw the axises
     c.beginPath();
     c.moveTo(options.xPadding, 0);
     c.lineTo(options.xPadding, graph.height - options.yPadding);
     c.lineTo(graph.width, graph.height - options.yPadding);
     c.stroke();
-    
+
     // Draw the X value texts
 	var maxLengthData = previousData;
-	if ( data.values.length > previousData.values.length ) {
+	if (data.values.length > previousData.values.length) {
 		maxLengthData = data;
 	}
-	for ( var i = 0; i < maxLengthData.values.length; i ++ ) {
+	for (var i = 0; i < maxLengthData.values.length; i++) {
 		c.fillStyle = '#808080';
 		c.fillText(maxLengthData.values[i].X, getXPixel(i), graph.height - options.yPadding + 20);
 	}
     // Draw the Y value texts
     c.textAlign = "right"
     c.textBaseline = "middle";
-    
-    for(var i = 0; i < getMaxY(); i += 10) {
+
+    for (var i = 0; i < getMaxY(); i += 10) {
 		c.fillStyle = '#808080';
         c.fillText(i, options.xPadding - 10, getYPixel(i));
     }
@@ -342,18 +342,18 @@ function drawLinearGraph(selector, data, previousData, options)
     c.stroke();
 
     c.fillStyle = options.currCircleColor;
-    
-    for(var i = 0; i < data.values.length; i ++) {  
+
+    for (var i = 0; i < data.values.length; i++) {
         c.beginPath();
         c.arc(getXPixel(i), getYPixel(data.values[i].Y), 4, 0, Math.PI * 2, true);
-		drawedCirclesCurrentGraph.push({'x': Math.round(getXPixel(i)), 'y': Math.round(getYPixel(data.values[i].Y))})
+		drawedCirclesCurrentGraph.push({ x: Math.round(getXPixel(i)), y: Math.round(getYPixel(data.values[i].Y)) });
         c.fill();
     }
 
     // Draw Previous Graph
 	c.lineWidth = options.lineWidth;
     c.strokeStyle = '#333';
-	
+
     c.font = 'italic 8pt sans-serif';
     c.textAlign = "center";
 

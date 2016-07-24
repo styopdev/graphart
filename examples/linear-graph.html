@@ -1,7 +1,6 @@
 <html>
     <head>
-        <script type = "text/javascript" src = "../jquery.js"></script>
-        <script type = "text/javascript" src = "../graphart.min.js"></script>
+        <script type = "text/javascript" src = "../dist/graphart.min.js"></script>
         <script>            
             var data = { values:[
                 { X: "January", Y: 8 },
@@ -42,9 +41,10 @@
 				prevColor : 'rgba(101, 181, 178, 0.8)'			
             }
 
-            $(function() {
+            window.onload = function () {
                 drawLinearGraph("#linear-graph", data, previousData, options)
-            });
+            }
+
         </script>
     </head>
     <body>

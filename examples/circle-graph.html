@@ -1,9 +1,9 @@
 <html>
 	<head>
-		<script type = "text/javascript" src = "../jquery.js"></script>
-		<script type = "text/javascript" src = "../graphart.js"></script>
+		<link rel = "stylesheet" href = "../dist/graphart.min.css">
+		<script type = "text/javascript" src = "../dist/graphart.min.js"></script>
 		<script type="text/javascript">
-			$(function() {
+			window.onload = function() {
 				var max   = 1000; 
 				var stat  = 750;
 				var options = {
@@ -17,9 +17,8 @@
 				}
 
 				drawCircleGraph("#circle-graph", stat, max, options);
-			});
+			}
 		</script>
-		<link rel = "stylesheet" href = "../graphart.css">
 	</head>
 	<body>
 		<h2>Circle Graph</h2>

@@ -1,14 +1,13 @@
 <html>
 	<head>
-		<script src = "../jquery.js"></script>
-		<script src = "../graphart.min.js"></script>
+		<script src = "../dist/graphart.min.js"></script>
 	</head>
 	<body>
 	<h2>Spider Graph</h2>
 		<canvas width = "400px" height = "400px" id ="mycanvas" ></canvas>
 			<script type = "text/javascript">
 				
-				$(function() {
+				window.onload = function () {
 					var stat  = [
 						[{'name':'2011', 'color' : '#03C9A9'},
 							{'type':'Java', 'value':50000},
@@ -54,7 +53,7 @@
 					};
 
 					drawSpiderGraph("#mycanvas", stat, options);
-				});
+				}
 
 			</script>
 	</body>
