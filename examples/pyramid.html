@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script type="text/javascript" src="../src/graphart.js"></script>
+	</head>
+	<body>
+		<canvas id="pyramid-chart" width="200px" height="200px"></canvas>
+	</body>
+	<script type="text/javascript">
+
+		var data = [
+					{ name: 'JS',    value: 100, color: '#aaa' }, 
+					{ name: 'PHP', 	 value: 200, color: '#ebc' },
+					{ name: 'Java',  value: 30,  color: '#dfa' },
+					{ name: 'C#', 	 value: 50,  color: '#123' },
+					{ name: 'Swift', value: 150, color: '#876' }
+				   ];
+	   	var options = { sort: { field: 'value', order: 'asc' }, isPercent: false, offset: 5 };
+
+		drawPyramid("#pyramid-chart", data, options);
+	</script>
+</html>

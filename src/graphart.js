@@ -14,11 +14,11 @@ function drawSpiderGraph(selector, stat, options)
 	var points 		 = 
 				[
 					{ alias: 'Java', x: canvasWidth / 2, y: yPadding },
-					{ alias: 'JS',   x: canvasWidth - xPadding, y: yPadding + (canvasHeight - 2 * yPadding) / 4},
-					{ alias: 'C',    x: canvasWidth - xPadding, y: 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
-					{ alias: 'Objc', x: canvasWidth / 2, y: canvasHeight - yPadding},
-					{ alias: 'C#',   x: xPadding, y: 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding},
-					{ alias: 'PHP',  x: xPadding, y: yPadding + (canvasHeight - 2 * yPadding) / 4}
+					{ alias: 'JS',   x: canvasWidth - xPadding, y: yPadding + (canvasHeight - 2 * yPadding) / 4 },
+					{ alias: 'C',    x: canvasWidth - xPadding, y: 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding },
+					{ alias: 'Objc', x: canvasWidth / 2, y: canvasHeight - yPadding },
+					{ alias: 'C#',   x: xPadding, y: 3 * (canvasHeight - 2 * yPadding) / 4 + yPadding },
+					{ alias: 'PHP',  x: xPadding, y: yPadding + (canvasHeight - 2 * yPadding) / 4 }
 				];
 
 	drawCrossLinesNetwork(context, points, options);
@@ -35,7 +35,7 @@ function drawSpiderGraph(selector, stat, options)
 	drawStatistic(context, points, stat, graphSize);
 }
 
-function drawCrossLinesNetwork(context, points, options)
+function drawCrossLinesNetwork (context, points, options)
 {
 	for (var j = 0; j < points.length / 2; j++) {
 		context.lineWidth = options.lineWidth;
@@ -46,7 +46,7 @@ function drawCrossLinesNetwork(context, points, options)
 	}
 }
 
-function drawHexagon(context, points, options)
+function drawHexagon (context, points, options)
 {
 	var config = {};
 	var startPointOffset = endPointOffset = { x: 0, y: 0};
@@ -95,8 +95,8 @@ function drawHexagon(context, points, options)
 	}
 }
 
-/* Used for statristics points */
-function getStatisticsPointOffset( i, offset )
+/* Used for statistics points */
+function getStatisticsPointOffset (i, offset)
 {
 	var xOffset, yOffset;
 	if (i % 3 == 0) {
@@ -108,7 +108,7 @@ function getStatisticsPointOffset( i, offset )
 		xOffset = Math.ceil(Math.sqrt( Math.pow(offset, 2) - Math.pow(yOffset, 2) )) + 8;
 	}
 	/* find offset direction */
-	switch ( i ) {
+	switch (i) {
 		case '1' :
 			xOffset = -1 * xOffset;
 			break;
@@ -126,7 +126,7 @@ function getStatisticsPointOffset( i, offset )
 	return { x: xOffset, y: yOffset };
 }
 /* Used for frame hexagons points*/
-function getPointOffset( i, offset )
+function getPointOffset (i, offset)
 {
 	var xOffset, yOffset;
 	if (i % 3 == 0) {
@@ -135,7 +135,7 @@ function getPointOffset( i, offset )
 	} else {
 		yOffset = Math.floor(offset / 2);
 		/* Pythagoras theorem */
-		xOffset = Math.ceil(Math.sqrt( Math.pow(offset, 2) - Math.pow(yOffset, 2) )) + 8;
+		xOffset = Math.ceil(Math.sqrt(Math.pow(offset, 2) - Math.pow(yOffset, 2))) + 8;
 		xOffset += 4;
 		yOffset += 1;
 	}
@@ -218,16 +218,16 @@ function drawLineNames(context, statList)
 		context.beginPath();
 		context.lineWidth = 3;
 		context.strokeStyle = statList[key][0].color;
-		
+
 		config.color  = context.strokeStyle;
 		config.startX = 30	;
 		config.startY = 10 + parseInt(key) * 20;
-		
+
 		context.moveTo(10, 10 + parseInt(key) * 20);
 		context.lineTo(50 , 10 + parseInt(key) * 20);
 		context.stroke();
 		drawArc(context, config);
-		
+
 		context.beginPath();
 		context.fillStyle = "#9BA3AF";
 	  	context.font = "14px Tahoma";
@@ -293,7 +293,7 @@ function getMaxY() {
     return max;
 }
 
-function drawLinearGraph(selector, data, previousData, options) 
+function drawLinearGraph(selector, data, previousData, options)
 {
     var graph = document.querySelector(selector);
 	var drawedCirclesPrevGraph 	  = [];
@@ -481,5 +481,47 @@ function drawPieChart(pieData, options)
         base.lineWidth = options.borderLineWidth;
         base.fill();
         base.strokeStyle = options.borderColor;
+    }
+}
+
+function drawPyramid(selector, data, opt) {
+	var options = { sort: { field: 'value', order: 'asc' }, isPercent: false, offset: 0 }; 
+
+	var canvas = document.querySelector(selector);
+    var base   = canvas.getContext('2d');
+
+    var startPoint = { x: canvas.offsetLeft, y: canvas.offsetTop };
+
+    data = formatData(data);
+
+    var i = data.length;
+    var remainingHeight = canvas.height,
+    	remainingWidth  = canvas.width;
+    while (i--) {
+    	// should fix
+    	var height = data[i].value * remainingHeight / 100;
+    	var points = [
+    				  { x: startPoint.x, y: startPoint.y },  // left bottom point
+    				  { x: remainingWidth * height / 2 / remainingHeight , y: height * 100 / remainingHeight }, // left top 
+    				  { x: remainingWidth - (remainingWidth * height / 2 / remainingHeight), y: height * 100 / remainingHeight }, // right top
+    				  { x: , y:  } // right bottom
+    				];
+    	drawTrapezoid(points, data[i].color);
+    	remainingHeight = remainingHeight - options.offset - height;
+    	remainingWidth = remainingWidth + options.offset;
+    }
+
+    function drawTrapezoid (points, color) {
+
+    }
+
+    function formatData (data, options) {
+    	data.sort(function(a, b) {
+    		if (options.sort.order !== 'desc') {
+    			return a[options.sort.field] > b[options.sort.field];
+    		} else {
+    			return a[options.sort.field] < b[options.sort.field];
+    		}
+    	});
     }
 }
