@@ -11,7 +11,7 @@ function drawSpiderGraph(selector, stat, options)
 	var yPadding   	 = canvasHeight / 10;
 
 	var graphSize 	 = { value: 75000, pixel: (canvasHeight - 2 * yPadding) / 2 };
-	var points 		 = 
+	var points 		 =
 				[
 					{ alias: 'Java', x: canvasWidth / 2, y: yPadding },
 					{ alias: 'JS',   x: canvasWidth - xPadding, y: yPadding + (canvasHeight - 2 * yPadding) / 4 },
@@ -58,7 +58,7 @@ function drawHexagon (context, points, options)
 			endPointOffset   = getPointOffset(i + 1, options.offset);
 		}
 
-		if (i != points.length - 1) {				
+		if (i != points.length - 1) {
 			context.beginPath();
 			context.moveTo(points[i].x + startPointOffset.x, points[i].y + startPointOffset.y);
 			context.lineTo(points[i + 1].x + endPointOffset.x, points[i + 1].y + endPointOffset.y );
@@ -69,7 +69,7 @@ function drawHexagon (context, points, options)
 				context.beginPath();
 				context.fillStyle = '#9BA3AF';
 		  		context.font = "20px Tahoma";
-		  		context.fillText(points[i].alias, points[i].x + eventTextOffset.x, points[i].y + eventTextOffset.y);	
+		  		context.fillText(points[i].alias, points[i].x + eventTextOffset.x, points[i].y + eventTextOffset.y);
 		  		context.stroke();
 		  	}
 			config.startX = points[i + 1].x + endPointOffset.x;
@@ -77,7 +77,7 @@ function drawHexagon (context, points, options)
 			config.radius = 1;
 		} else {
 			/* Hexagon last point case */
-			context.beginPath(); 
+			context.beginPath();
 			context.moveTo(points[points.length - 1].x + startPointOffset.x, points[points.length - 1].y + startPointOffset.y);
 			context.lineTo(points[0].x + endPointOffset.x, points[0].y + endPointOffset.y);
 			context.stroke();
@@ -85,7 +85,7 @@ function drawHexagon (context, points, options)
 			if (options.offset == 0) {
 				context.beginPath();
 		  		context.font = "20px Tahoma";
-		  		context.fillText(points[i].alias, points[i].x - 35, points[i].y + startPointOffset.y);	
+		  		context.fillText(points[i].alias, points[i].x - 35, points[i].y + startPointOffset.y);
 		  		context.stroke();
 		  	}
 			config.startX = points[0].x + endPointOffset.x;
@@ -184,7 +184,7 @@ function drawStatistic(context, points, stat, graphSize)
 					config.color  = stat[i][0].color;
 					config.startX = parseInt(points[key].x) + parseInt(pointOffset.x);
 					config.startY = parseInt(points[key].y)   + parseInt(pointOffset.y);
-					statPointCoordinatesList.push({ x: config.startX, y: config.startY, color: config.color, name: config.name}); 
+					statPointCoordinatesList.push({ x: config.startX, y: config.startY, color: config.color, name: config.name});
 					drawArc(context, config);
 				}
 			}
@@ -247,27 +247,27 @@ function getEventNameTextOffset(points, alias)
 	}
 
 	switch (aliasIndex) {
-		case 0 : 
+		case 0 :
 	 		xOffset = -15;
 			yOffset = -10;
 			break;
-		case 1 : 
+		case 1 :
 	 		xOffset = 10;
 			yOffset = 0;
 			break;
-		case 2 : 
+		case 2 :
 	 		xOffset = 10;
 			yOffset = 10;
 			break;
-		case 3 : 
+		case 3 :
 	 		xOffset = -15;
 			yOffset = 25;
 			break;
-		case 4 : 
+		case 4 :
 	 		xOffset = -30;
 			yOffset = 15;
 			break;
-		case 5 : 
+		case 5 :
 	}
 	return { x: xOffset, y: yOffset };
 }
@@ -299,7 +299,7 @@ function drawLinearGraph(selector, data, previousData, options)
 	var drawedCirclesPrevGraph 	  = [];
 	var drawedCirclesCurrentGraph = [];
 
-    var c = graph.getContext('2d');            
+    var c = graph.getContext('2d');
 
     c.lineWidth = options.lineWidth;
     c.strokeStyle = '#333';
@@ -331,7 +331,7 @@ function drawLinearGraph(selector, data, previousData, options)
 		c.fillStyle = '#808080';
         c.fillText(i, options.xPadding - 10, getYPixel(i));
     }
-    
+
     c.strokeStyle = options.currColor;
 
     c.beginPath();
@@ -364,7 +364,7 @@ function drawLinearGraph(selector, data, previousData, options)
     c.stroke();
 
 	c.strokeStyle = options.prevColor;
-	
+
     c.beginPath();
     c.moveTo(getXPixel(0), getYPixel(previousData.values[0].Y));
     for (var i = 1; i < previousData.values.length; i ++) {
@@ -373,8 +373,8 @@ function drawLinearGraph(selector, data, previousData, options)
     c.stroke();
 
     c.fillStyle = options.prevCircleColor;
-    
-    for (var i = 0; i < previousData.values.length; i ++) {  
+
+    for (var i = 0; i < previousData.values.length; i ++) {
         c.beginPath();
         c.arc(getXPixel(i), getYPixel(previousData.values[i].Y), 4, 0, Math.PI * 2, true);
 		drawedCirclesPrevGraph.push({ x: Math.round(getXPixel(i)), y: Math.round(getYPixel(data.values[i].Y))})
@@ -396,10 +396,10 @@ function drawCircleGraph(selector, stat, max, options) {
 	var context = canvas.getContext('2d');
 	var x = canvas.width / 2;
 	var y = canvas.height / 2;
-	
+
 	var endPercentCurrent = (stat + 10) / max * 100 ;
 	var endPercentCurrentText = (stat) / max * 100 ;
-	
+
 	var curPerc = 0;
 	var counterClockwise = true;
 	var circ = Math.PI * 2;
@@ -417,13 +417,13 @@ function drawCircleGraph(selector, stat, max, options) {
 	context.fillStyle = options.textColor;
 	context.font = "normal 50px ProximaNova-Regular";
 	context.fillText(endPercentCurrentText, 108, 155);
-	 
+
 	context.fillStyle = options.textColor;
 	context.font = "normal 22px  ProximaNova-Regular";
 	context.fillText("%", 160, 135);
-	 
+
 	context.lineWidth = options.outerLineWidth;
-	 
+
 	function animateCurrent(current) {
 	    context.beginPath();
 		context.shadowColor = options.outerFillColor;
@@ -485,43 +485,49 @@ function drawPieChart(pieData, options)
 }
 
 function drawPyramid(selector, data, opt) {
-	var options = { sort: { field: 'value', order: 'asc' }, isPercent: false, offset: 0 }; 
-
+	var options = { sort: { field: 'value', order: 'asc' }, isPercent: false, offset: 0 };
 	var canvas = document.querySelector(selector);
-    var base   = canvas.getContext('2d');
+	var base = canvas.getContext('2d');
 
-    var startPoint = { x: canvas.offsetLeft, y: canvas.offsetTop };
+  var startPoint = { x: canvas.offsetLeft, y: canvas.offsetTop };
 
-    data = formatData(data);
+  data = formatData(data);
 
-    var i = data.length;
-    var remainingHeight = canvas.height,
-    	remainingWidth  = canvas.width;
-    while (i--) {
-    	// should fix
-    	var height = data[i].value * remainingHeight / 100;
-    	var points = [
-    				  { x: startPoint.x, y: startPoint.y },  // left bottom point
-    				  { x: remainingWidth * height / 2 / remainingHeight , y: height * 100 / remainingHeight }, // left top 
-    				  { x: remainingWidth - (remainingWidth * height / 2 / remainingHeight), y: height * 100 / remainingHeight }, // right top
-    				  { x: , y:  } // right bottom
-    				];
-    	drawTrapezoid(points, data[i].color);
-    	remainingHeight = remainingHeight - options.offset - height;
-    	remainingWidth = remainingWidth + options.offset;
-    }
+  var i = data.length;
+  var remainingHeight = canvas.height,
+  		remainingWidth  = canvas.width;
+  while (i--) {
+  	// should fix
+  	var height = data[i].value * remainingHeight / 100;
+  	var points = {
+  				  bl: { x: startPoint.x, y: startPoint.y },  // left bottom point
+  				  tl: { x: remainingWidth * height / 2 / remainingHeight , y: height * 100 / remainingHeight }, // left top
+  				  tr: { x: remainingWidth - (remainingWidth * height / 2 / remainingHeight), y: height * 100 / remainingHeight }, // right top
+  				  br: { x: remainingWidth, y: startPoint.y } // right bottom
+  				};
+  	drawTrapezoid(points, data[i].color);
+  	remainingHeight = remainingHeight - options.offset - height;
+  	remainingWidth = remainingWidth + options.offset;
+  }
 
-    function drawTrapezoid (points, color) {
+  function drawTrapezoid (points, color) {
+		base.fillStyle = color;
+		base.beginPath();
+		base.moveTo(points.bl.x, points.bl.y);
+		base.lineTo(points.tl.x, points.tl.y);
+		base.lineTo(points.tr.x, points.tr.y);
+		base.lineTo(points.br.x, points.br.y);
+		base.closePath();
+		base.fill();
+  }
 
-    }
-
-    function formatData (data, options) {
-    	data.sort(function(a, b) {
-    		if (options.sort.order !== 'desc') {
-    			return a[options.sort.field] > b[options.sort.field];
-    		} else {
-    			return a[options.sort.field] < b[options.sort.field];
-    		}
-    	});
-    }
+  function formatData (data) {
+  	return data.sort(function(a, b) {
+  		if (options.sort.order !== 'desc') {
+  			return a[options.sort.field] > b[options.sort.field];
+  		} else {
+  			return a[options.sort.field] < b[options.sort.field];
+  		}
+  	});
+  }
 }
