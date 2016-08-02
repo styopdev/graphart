@@ -485,34 +485,39 @@ function drawPieChart(pieData, options)
 }
 
 function drawPyramid(selector, data, opt) {
-	var options = { sort: { field: 'value', order: 'asc' }, isPercent: false, offset: 0 };
+	var options = { sort: { field: 'value', order: 'asc' }, offset: 0 };
 	var canvas = document.querySelector(selector);
 	var base = canvas.getContext('2d');
 
-  var startPoint = { x: canvas.offsetLeft, y: canvas.offsetTop };
+  var startPoint = { x: canvas.offsetLeft, y: canvas.offsetTop + canvas.height };
 
   data = formatData(data);
 
-  var i = data.length;
+  var i = 2;//data.length;
   var remainingHeight = canvas.height,
   		remainingWidth  = canvas.width;
-  while (i--) {
-  	// should fix
-  	var height = data[i].value * remainingHeight / 100;
+
+	while (i--) {
+  	var height = data[i].value * canvas.height / 100;
+		var widthToCut = remainingWidth * height / 2 / remainingHeight;
+
   	var points = {
-  				  bl: { x: startPoint.x, y: startPoint.y },  // left bottom point
-  				  tl: { x: remainingWidth * height / 2 / remainingHeight , y: height * 100 / remainingHeight }, // left top
-  				  tr: { x: remainingWidth - (remainingWidth * height / 2 / remainingHeight), y: height * 100 / remainingHeight }, // right top
-  				  br: { x: remainingWidth, y: startPoint.y } // right bottom
-  				};
-  	drawTrapezoid(points, data[i].color);
+		  bl: { x: startPoint.x, y: startPoint.y },
+		  tl: { x: widthToCut + canvas.offsetLeft, y: canvas.height - (height * 100 / remainingHeight) + canvas.offsetTop },
+		  tr: { x: remainingWidth - widthToCut + canvas.offsetLeft, y: canvas.height - (height * 100 / remainingHeight) + canvas.offsetTop },
+		  br: { x: remainingWidth + canvas.offsetLeft, y: startPoint.y }
+		};
+
+		drawTrapezoid(points, data[i].color);
   	remainingHeight = remainingHeight - options.offset - height;
-  	remainingWidth = remainingWidth + options.offset;
+		startPoint.x = startPoint.x + widthToCut;
+  	remainingWidth = remainingWidth - (2 * widthToCut);
   }
 
   function drawTrapezoid (points, color) {
 		base.fillStyle = color;
 		base.beginPath();
+		console.log('points', points);
 		base.moveTo(points.bl.x, points.bl.y);
 		base.lineTo(points.tl.x, points.tl.y);
 		base.lineTo(points.tr.x, points.tr.y);
@@ -522,12 +527,22 @@ function drawPyramid(selector, data, opt) {
   }
 
   function formatData (data) {
-  	return data.sort(function(a, b) {
+		var total = 0;
+  	data = data.sort(function(a, b) {
   		if (options.sort.order !== 'desc') {
-  			return a[options.sort.field] > b[options.sort.field];
-  		} else {
   			return a[options.sort.field] < b[options.sort.field];
+  		} else {
+  			return a[options.sort.field] > b[options.sort.field];
   		}
   	});
+
+		data.filter(function (elem) {
+			total += elem.value;
+			return true;
+		}).map(function (elem) {
+			elem.value = elem.value * 100 / total;
+			return elem;
+		});
+		return data;
   }
 }
