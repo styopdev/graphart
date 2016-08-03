@@ -485,39 +485,37 @@ function drawPieChart(pieData, options)
 }
 
 function drawPyramid(selector, data, opt) {
-	var options = { sort: { field: 'value', order: 'asc' }, offset: 0 };
+	var options = Object.assign({ sort: { field: 'value', order: 'asc' }, offset: 0 }, opt);
 	var canvas = document.querySelector(selector);
 	var base = canvas.getContext('2d');
 
-  var startPoint = { x: canvas.offsetLeft, y: canvas.offsetTop + canvas.height };
+  var startPoint = { x: 0, y: canvas.height };
 
   data = formatData(data);
 
-  var i = 2;//data.length;
+  var i = data.length;
   var remainingHeight = canvas.height,
   		remainingWidth  = canvas.width;
-
 	while (i--) {
   	var height = data[i].value * canvas.height / 100;
-		var widthToCut = remainingWidth * height / 2 / remainingHeight;
+		var widthToCut = remainingWidth * height / 2 / startPoint.y;
 
   	var points = {
 		  bl: { x: startPoint.x, y: startPoint.y },
-		  tl: { x: widthToCut + canvas.offsetLeft, y: canvas.height - (height * 100 / remainingHeight) + canvas.offsetTop },
-		  tr: { x: remainingWidth - widthToCut + canvas.offsetLeft, y: canvas.height - (height * 100 / remainingHeight) + canvas.offsetTop },
-		  br: { x: remainingWidth + canvas.offsetLeft, y: startPoint.y }
+		  tl: { x: startPoint.x + widthToCut, y: startPoint.y - height },
+		  tr: { x: startPoint.x + remainingWidth - widthToCut, y: startPoint.y - height },
+		  br: { x: startPoint.x + remainingWidth, y: startPoint.y }
 		};
 
 		drawTrapezoid(points, data[i].color);
-  	remainingHeight = remainingHeight - options.offset - height;
 		startPoint.x = startPoint.x + widthToCut;
+		startPoint.y = startPoint.y - height;
   	remainingWidth = remainingWidth - (2 * widthToCut);
   }
 
   function drawTrapezoid (points, color) {
 		base.fillStyle = color;
 		base.beginPath();
-		console.log('points', points);
 		base.moveTo(points.bl.x, points.bl.y);
 		base.lineTo(points.tl.x, points.tl.y);
 		base.lineTo(points.tr.x, points.tr.y);
@@ -530,9 +528,9 @@ function drawPyramid(selector, data, opt) {
 		var total = 0;
   	data = data.sort(function(a, b) {
   		if (options.sort.order !== 'desc') {
-  			return a[options.sort.field] < b[options.sort.field];
-  		} else {
   			return a[options.sort.field] > b[options.sort.field];
+  		} else {
+  			return a[options.sort.field] < b[options.sort.field];
   		}
   	});
 
